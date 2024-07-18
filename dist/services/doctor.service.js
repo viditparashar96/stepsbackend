@@ -18,6 +18,7 @@ exports.linkDoctorToPatient = linkDoctorToPatient;
 exports.unlinkDoctorFromPatient = unlinkDoctorFromPatient;
 exports.findDoctorPatientLink = findDoctorPatientLink;
 exports.getPatientsByDoctor = getPatientsByDoctor;
+exports.getAllPatients = getAllPatients;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const db_config_1 = require("../config/db-config");
 const env_config_1 = require("../config/env-config");
@@ -95,5 +96,14 @@ function getPatientsByDoctor(doctorId) {
         //     },
         //   },
         // });
+    });
+}
+function getAllPatients() {
+    return __awaiter(this, void 0, void 0, function* () {
+        return prisma.patient.findMany({
+            include: {
+                doctors: true,
+            },
+        });
     });
 }

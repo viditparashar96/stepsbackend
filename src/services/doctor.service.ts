@@ -88,3 +88,13 @@ export async function getPatientsByDoctor(doctorId: number) {
   //   },
   // });
 }
+
+export async function getAllPatients(){
+  return prisma.patient.findMany({
+    
+    include:{
+      doctors:true,
+      
+    },
+  })
+}

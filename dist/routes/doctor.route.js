@@ -13,4 +13,5 @@ router.route("/login").post(doctor.LoginDoctor);
 router.route("/currentDoctor").get(auth_middleware_1.authenticate, doctor.currentDoctor);
 router.route("/link-patient").post(auth_middleware_1.authenticate, doctor.linkPatient);
 router.route("/:doctorId/patients").get(auth_middleware_1.authenticate, doctor.getDoctorPatients);
+router.route("/get-all-patients").get(auth_middleware_1.authenticate, doctor.getAllPatients);
 module.exports = router;

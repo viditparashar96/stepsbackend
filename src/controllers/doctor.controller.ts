@@ -11,6 +11,7 @@ import {
   createDoctor,
   findDoctorByEmail,
   findDoctorPatientLink,
+  getAllPatients,
   getPatientsByDoctor,
   linkDoctorToPatient,
   unlinkDoctorFromPatient,
@@ -151,4 +152,22 @@ export class Doctor {
         .json({ message: "Internal server error", error: error.message });
     }
   }
+
+  async getAllPatients(req:Request,res:Response){
+    try {
+      const patients=await getAllPatients()
+      
+      return res.status(200).json({
+        message:"OK",
+        patients
+      })
+    } catch (error:any) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message });
+    }
+  }
+
+
 }

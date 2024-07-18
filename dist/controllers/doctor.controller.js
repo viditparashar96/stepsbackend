@@ -152,5 +152,22 @@ class Doctor {
             }
         });
     }
+    getAllPatients(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const patients = yield (0, doctor_service_1.getAllPatients)();
+                return res.status(200).json({
+                    message: "OK",
+                    patients
+                });
+            }
+            catch (error) {
+                console.error(error);
+                res
+                    .status(500)
+                    .json({ message: "Internal server error", error: error.message });
+            }
+        });
+    }
 }
 exports.Doctor = Doctor;
