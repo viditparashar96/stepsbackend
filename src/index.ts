@@ -10,7 +10,7 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://stepsfrontend.vercel.app/",
+    origin: "https://stepsfrontend.vercel.app",
     credentials: true,
   })
 );
