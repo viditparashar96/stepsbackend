@@ -78,6 +78,8 @@ export class Doctor {
         .cookie("token", token, {
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
           httpOnly: true,
+          secure: env_conf.node_env === "production",
+          sameSite: "none",
         })
         .json({ message: "Doctor logged in successfully", token });
     } catch (error: any) {
