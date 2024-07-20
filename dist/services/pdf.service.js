@@ -15,12 +15,15 @@ exports.deletePdf = deletePdf;
 const db_config_1 = require("../config/db-config");
 const env_config_1 = require("../config/env-config");
 const prisma = (0, db_config_1.getPrisma)(env_config_1.env_conf.database_url);
-function savePdf(id, name) {
+function savePdf(data) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(data);
         return prisma.pDF.create({
             data: {
-                doctorId: id,
-                filePath: name,
+                doctorId: data.id,
+                name: data.name,
+                description: data.description,
+                filePath: data.filePath,
             },
         });
     });

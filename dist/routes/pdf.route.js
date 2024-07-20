@@ -12,7 +12,7 @@ const pdf = new pdf_controller_1.PDf();
 const storage = multer_1.default.memoryStorage();
 const upload = (0, multer_1.default)({
     storage: storage,
-    limits: { fileSize: 2 * 1024 * 1024 },
+    limits: { fileSize: 5 * 1024 * 1024 },
 });
 router
     .route("/upload-pdf")

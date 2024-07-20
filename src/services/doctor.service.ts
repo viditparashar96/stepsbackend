@@ -89,12 +89,25 @@ export async function getPatientsByDoctor(doctorId: number) {
   // });
 }
 
-export async function getAllPatients(){
+export async function getAllPatients() {
   return prisma.patient.findMany({
-    
-    include:{
-      doctors:true,
-      
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      doctors: {
+        select: {
+          doctorId: true,
+        },
+      },
     },
-  })
+  });
 }
+
+export const getAllpdfs = async (doctorId: number) => {
+  return prisma.pDF.findMany({
+    where: {
+      doctorId,
+    },
+  });
+};

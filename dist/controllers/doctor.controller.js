@@ -158,7 +158,7 @@ class Doctor {
                 const patients = yield (0, doctor_service_1.getAllPatients)();
                 return res.status(200).json({
                     message: "OK",
-                    patients
+                    patients,
                 });
             }
             catch (error) {
@@ -166,6 +166,33 @@ class Doctor {
                 res
                     .status(500)
                     .json({ message: "Internal server error", error: error.message });
+            }
+        });
+    }
+    getAllpdfs(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const pdf = yield (0, doctor_service_1.getAllpdfs)(parseInt(req.body.user.id));
+                return res.status(200).json({
+                    message: "OK",
+                    pdfs: pdf,
+                });
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    }
+    logout(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return res
+                    .status(200)
+                    .clearCookie("token")
+                    .json({ message: "Doctor logged out successfully" });
+            }
+            catch (error) {
+                return res.status(500).json({ error: error.message });
             }
         });
     }

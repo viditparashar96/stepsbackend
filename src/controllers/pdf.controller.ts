@@ -3,6 +3,8 @@ import crypto from "crypto";
 import { Request, Response } from "express";
 import { env_conf } from "../config/env-config";
 import s3 from "../config/s3-config";
+import { zodErrorFormatter } from "../helpers/errors";
+import { pdfUploadSchema } from "../libs/zod-schemas/pdfzodschema";
 import { deletePdf, getPdf, savePdf } from "../services/pdf.service";
 export class PDf {
   constructor() {
@@ -11,6 +13,7 @@ export class PDf {
 
   async uploadPdf(req: Request, res: Response) {
     try {
+      const { name, description } = req.body;
       const file = req.file;
       console.log(file);
       if (!file) {
@@ -19,6 +22,15 @@ export class PDf {
         });
       }
 
+      const validation = pdfUploadSchema.safeParse({
+        name,
+        description,
+      });
+
+      if (!validation.success) {
+        const errorMessages = zodErrorFormatter(validation.error);
+        return res.status(400).json({ errors: errorMessages });
+      }
       let ramdomBytes = crypto.randomBytes(16).toString("hex");
 
       const params = {
@@ -30,8 +42,13 @@ export class PDf {
       const command = new PutObjectCommand(params);
 
       await s3.send(command);
-
-      const savedPdf = await savePdf(req.body.user.id, ramdomBytes);
+      const data = {
+        id: req.body.user.id,
+        name,
+        description,
+        filePath: ramdomBytes,
+      };
+      const savedPdf = await savePdf(data);
 
       return res
         .status(200)

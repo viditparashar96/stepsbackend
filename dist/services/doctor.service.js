@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getAllpdfs = void 0;
 exports.findDoctorByEmail = findDoctorByEmail;
 exports.createDoctor = createDoctor;
 exports.linkDoctorToPatient = linkDoctorToPatient;
@@ -101,9 +102,24 @@ function getPatientsByDoctor(doctorId) {
 function getAllPatients() {
     return __awaiter(this, void 0, void 0, function* () {
         return prisma.patient.findMany({
-            include: {
-                doctors: true,
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                doctors: {
+                    select: {
+                        doctorId: true,
+                    },
+                },
             },
         });
     });
 }
+const getAllpdfs = (doctorId) => __awaiter(void 0, void 0, void 0, function* () {
+    return prisma.pDF.findMany({
+        where: {
+            doctorId,
+        },
+    });
+});
+exports.getAllpdfs = getAllpdfs;

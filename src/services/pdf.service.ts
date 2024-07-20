@@ -3,11 +3,14 @@ import { env_conf } from "../config/env-config";
 
 const prisma = getPrisma(env_conf.database_url);
 
-export async function savePdf(id: number, name: string) {
+export async function savePdf(data: any) {
+  console.log(data);
   return prisma.pDF.create({
     data: {
-      doctorId: id,
-      filePath: name,
+      doctorId: data.id,
+      name: data.name,
+      description: data.description,
+      filePath: data.filePath,
     },
   });
 }

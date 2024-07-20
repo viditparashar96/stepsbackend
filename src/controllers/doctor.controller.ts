@@ -12,6 +12,7 @@ import {
   findDoctorByEmail,
   findDoctorPatientLink,
   getAllPatients,
+  getAllpdfs,
   getPatientsByDoctor,
   linkDoctorToPatient,
   unlinkDoctorFromPatient,
@@ -153,15 +154,15 @@ export class Doctor {
     }
   }
 
-  async getAllPatients(req:Request,res:Response){
+  async getAllPatients(req: Request, res: Response) {
     try {
-      const patients=await getAllPatients()
-      
+      const patients = await getAllPatients();
+
       return res.status(200).json({
-        message:"OK",
-        patients
-      })
-    } catch (error:any) {
+        message: "OK",
+        patients,
+      });
+    } catch (error: any) {
       console.error(error);
       res
         .status(500)
@@ -169,5 +170,26 @@ export class Doctor {
     }
   }
 
+  async getAllpdfs(req: Request, res: Response) {
+    try {
+      const pdf = await getAllpdfs(parseInt(req.body.user.id));
 
+      return res.status(200).json({
+        message: "OK",
+        pdfs: pdf,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async logout(req: Request, res: Response) {
+    try {
+      return res
+        .status(200)
+        .clearCookie("token")
+        .json({ message: "Doctor logged out successfully" });
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
 }
