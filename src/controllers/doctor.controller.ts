@@ -188,7 +188,11 @@ export class Doctor {
     try {
       return res
         .status(200)
-        .clearCookie("token")
+        .clearCookie("token", {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+        })
         .json({ message: "Doctor logged out successfully" });
     } catch (error: any) {
       return res.status(500).json({ error: error.message });

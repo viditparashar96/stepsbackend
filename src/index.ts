@@ -8,7 +8,7 @@ require("dotenv").config();
 const app: Express = express();
 const port = process.env.PORT;
 app.use(express.json());
-// https://stepsfrontend.vercel.app
+//
 app.use(
   cors({
     origin: "https://stepsfrontend.vercel.app",
